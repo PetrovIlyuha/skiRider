@@ -1,1 +1,10 @@
-<p>shop works!</p>
+<app-filtered-product-list
+  [products]="products"
+  [totalProducts]="totalProducts"
+  [brands]="brands"
+  [categories]="categories"
+  (filterByBrand)="performFilterByBrand($event)"
+  (filterByCategory)="performFilterByCategory($event)"
+  (sortByEmitter)="performSortingOnProducts($event)"
+>
+</app-filtered-product-list>

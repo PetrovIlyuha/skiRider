@@ -229,39 +229,53 @@
           </button>
 
           <div class="hidden lg:block">
-            <form class="divide-y divide-gray-200 space-y-10">
+          <!-- Sorting dropdown -->
+            <div class="my-4">
+            <label id="listbox-label" class="block text-sm font-medium text-gray-700">Sort By</label>
+            <div class="relative mt-1">
+                <button type="button" (click)="toggleSortMenu()" class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                  <span class="block truncate">{{getSelectedSortingMethodDisplayValue()}}</span>
+                    <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <!-- Heroicon name: mini/chevron-up-down -->
+                      <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                      </svg>
+                   </span>
+                </button>
+              <ul [ngClass]="{'transition-all ease-in duration-100 absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm':true, 'hidden': !sortMenuOpened}" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
+                <div *ngFor="let sortOption of sortingOptions">
+                <li (click)="selectSortMethod(sortOption.value)" class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-blue-400 hover:text-white transition-all duration-100 ease-in" id="listbox-option-0" role="option">
+                  <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+                  <span class="font-normal block truncate">{{sortOption.name}}</span>
+                  <!-- Checkmark, only display for selected option. Highlighted: "text-white", Not Highlighted: "text-indigo-600" -->
+                  <span [ngClass]="{'absolute inset-y-0 right-0 flex items-center pr-4': true,
+                                     'text-white': sortOption.value !== selectedSortMethod,
+                                     'text-indigo-600': sortOption.value === selectedSortMethod}">
+                  <!-- Heroicon name: mini/check -->
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  </li>
+                </div>
+              </ul>
+            </div>
+          </div>
+
+          <form class="divide-y divide-gray-200 space-y-10">
               <div>
                 <fieldset>
-                  <legend class="block text-sm font-medium text-gray-900">Color</legend>
-                  <div class="pt-6 space-y-3">
+                  <legend class="block text-sm font-medium text-gray-900">Brands</legend>
+                  <div class="pt-6 space-y-3" *ngFor="let brand of brands">
                     <div class="flex items-center">
-                      <input id="color-0" name="color[]" value="white" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-0" class="ml-3 text-sm text-gray-600"> White </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="color-1" name="color[]" value="beige" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-1" class="ml-3 text-sm text-gray-600"> Beige </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="color-2" name="color[]" value="blue" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-2" class="ml-3 text-sm text-gray-600"> Blue </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="color-3" name="color[]" value="brown" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-3" class="ml-3 text-sm text-gray-600"> Brown </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="color-4" name="color[]" value="green" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-4" class="ml-3 text-sm text-gray-600"> Green </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="color-5" name="color[]" value="purple" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="color-5" class="ml-3 text-sm text-gray-600"> Purple </label>
+                      <input name="brandFilters[]"
+                             value="{{brand.id}}"
+                             (change)="applyFilterByBrand(brand.id)"
+                             type="checkbox"
+                             [checked]="brand.id === selectedFilterBrandId"
+                             class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                      >
+                      <label class="ml-3 text-sm text-gray-600">{{brand.name}}</label>
                     </div>
                   </div>
                 </fieldset>
@@ -270,67 +284,16 @@
               <div class="pt-10">
                 <fieldset>
                   <legend class="block text-sm font-medium text-gray-900">Category</legend>
-                  <div class="pt-6 space-y-3">
+                  <div class="pt-6 space-y-3" *ngFor="let category of categories">
                     <div class="flex items-center">
-                      <input id="category-0" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="category-0" class="ml-3 text-sm text-gray-600"> All New Arrivals </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="category-1" name="category[]" value="tees" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="category-1" class="ml-3 text-sm text-gray-600"> Tees </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="category-2" name="category[]" value="crewnecks" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="category-2" class="ml-3 text-sm text-gray-600"> Crewnecks </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="category-3" name="category[]" value="sweatshirts" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="category-3" class="ml-3 text-sm text-gray-600"> Sweatshirts </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="category-4" name="category[]" value="pants-shorts" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="category-4" class="ml-3 text-sm text-gray-600"> Pants &amp; Shorts </label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="pt-10">
-                <fieldset>
-                  <legend class="block text-sm font-medium text-gray-900">Sizes</legend>
-                  <div class="pt-6 space-y-3">
-                    <div class="flex items-center">
-                      <input id="sizes-0" name="sizes[]" value="xs" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-0" class="ml-3 text-sm text-gray-600"> XS </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="sizes-1" name="sizes[]" value="s" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-1" class="ml-3 text-sm text-gray-600"> S </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="sizes-2" name="sizes[]" value="m" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-2" class="ml-3 text-sm text-gray-600"> M </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="sizes-3" name="sizes[]" value="l" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-3" class="ml-3 text-sm text-gray-600"> L </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="sizes-4" name="sizes[]" value="xl" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-4" class="ml-3 text-sm text-gray-600"> XL </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="sizes-5" name="sizes[]" value="2xl" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                      <label for="sizes-5" class="ml-3 text-sm text-gray-600"> 2XL </label>
+                      <input id="category-0" name="category[]"
+                             value="{{category.id}}"
+                             (change)="applyFilterByCategory(category.id)"
+                             type="checkbox"
+                             [checked]="category.id === selectedCategoryId"
+                             class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                      >
+                      <label for="category-0" class="ml-3 text-sm text-gray-600">{{category.name}}</label>
                     </div>
                   </div>
                 </fieldset>
@@ -340,12 +303,23 @@
         </aside>
 
         <!-- Product grid -->
-        <div class="mt-6 lg:-mt-10 lg:col-span-2 xl:col-span-3">
+        <div class="mt-6 lg:-mt-20 lg:col-span-2 xl:col-span-3">
           <div class="bg-white">
             <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+              <section *ngIf="products" class="my-4 flex items-center w-full justify-between">
+                <span>Showing <strong class="mx-1">{{products.length}}</strong>out of<strong class="mx-1">{{totalProducts}}</strong>results</span>
+                <div>
+
+                <label for="search">
+                  <input type="text" class="border-none shadow-sm rounded-sm hover:ring-2 active:ring-2 ring-blue-200" placeholder="filter results..." id="search">
+                </label>
+                  <button class="px-4 py-2 ml-2 rounded-md bg-blue-500 hover:bg-blue-600 text-gray-200 font-semibold hover:text-gray-100">Search</button>
+                  <button class="px-4 py-2 ml-2 rounded-md bg-neutral-500 hover:bg-neutral-600 text-gray-200 font-semibold hover:text-gray-100">Clear</button>
+                </div>
+              </section>
               <div *ngIf="products" class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                 <div *ngFor="let product of products">
-                <app-product-card-small [product]="product"></app-product-card-small>
+                  <app-product-card-small [product]="product"></app-product-card-small>
                 </div>
               </div>
             </div>
