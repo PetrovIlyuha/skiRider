@@ -6,5 +6,7 @@
   (filterByBrand)="performFilterByBrand($event)"
   (filterByCategory)="performFilterByCategory($event)"
   (sortByEmitter)="performSortingOnProducts($event)"
+  (pageChangedEmitter)="onPageChanged($event)"
+  [shopParams]="shopParams"
 >
 </app-filtered-product-list>

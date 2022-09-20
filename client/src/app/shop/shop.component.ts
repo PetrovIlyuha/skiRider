@@ -1,60 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import {IProduct} from "../shared/models/product";
-import {ShopService} from "./shop.service";
-import {IProductBrand} from "../shared/models/ProductBrand";
-import {IProductCategory} from "../shared/models/ProductCategory";
+import { IProduct } from '../shared/models/product';
+import { ShopService } from './shop.service';
+import { IProductBrand } from '../shared/models/ProductBrand';
+import { IProductCategory } from '../shared/models/ProductCategory';
+import { ShopParams } from '../shared/models/shopParams';
 
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss']
+  styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
-  products: IProduct[]
-  brands: IProductBrand[]
-  categories: IProductCategory[]
+  products: IProduct[];
+  brands: IProductBrand[];
+  categories: IProductCategory[];
   totalProducts: number;
-  productBrandIdForFilterSelected?: number;
-  productCategoryIdForFilterSelected?: number;
-  sortByString: string;
-  constructor(private shopService: ShopService) { }
+  shopParams = new ShopParams();
+  constructor(private shopService: ShopService) {}
 
-  getProducts() {
-    this.shopService.getProducts(this.productBrandIdForFilterSelected,this.productCategoryIdForFilterSelected,this.sortByString).subscribe(response => {
-      this.products = response.data;
-      this.totalProducts = response.count;
-    })
-  }
-  getBrands() {
-    this.shopService.getBrands().subscribe((response) => {
-      this.brands = [{id:0,name:"All"},...response];
-    })
-  }
-
-  getProductCategories() {
-    this.shopService.getProductCategories().subscribe((response) => {
-      this.categories = [{id:0,name:"All"},...response];
-    })
-  }
   ngOnInit(): void {
     this.getProducts();
     this.getBrands();
     this.getProductCategories();
   }
 
+  getProducts() {
+    this.shopService.getProducts(this.shopParams).subscribe((response) => {
+      this.products = response.data;
+      this.shopParams.pageNumber = response.pageIndex;
+      this.shopParams.pageSize = response.pageSize;
+      this.totalProducts = response.count;
+    });
+  }
+  getBrands() {
+    this.shopService.getBrands().subscribe((response) => {
+      this.brands = [{ id: 0, name: 'All' }, ...response];
+    });
+  }
+
+  getProductCategories() {
+    this.shopService.getProductCategories().subscribe((response) => {
+      this.categories = [{ id: 0, name: 'All' }, ...response];
+    });
+  }
+
   performFilterByBrand(brandId: number) {
-    this.productBrandIdForFilterSelected = brandId;
+    this.shopParams.productBrandIdForFilterSelected = brandId;
     this.getProducts();
   }
 
   performFilterByCategory(categoryId: number) {
-    this.productCategoryIdForFilterSelected = categoryId;
+    this.shopParams.productCategoryIdForFilterSelected = categoryId;
     this.getProducts();
   }
 
   performSortingOnProducts(sortByString: string) {
-    this.sortByString = sortByString;
+    this.shopParams.sortByString = sortByString;
     this.getProducts();
   }
 
+  onPageChanged(pageNumber: number) {
+    this.shopParams.pageNumber = pageNumber;
+    this.getProducts();
+  }
 }
