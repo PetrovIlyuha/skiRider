@@ -27,6 +27,9 @@ export class ShopService {
         shopParams.productCategoryIdForFilterSelected.toString()
       );
     }
+    if (shopParams.searchTerm) {
+      requestParams = requestParams.append('search', shopParams.searchTerm);
+    }
     requestParams = requestParams.append('sort', shopParams.sortByString);
     requestParams = requestParams.append(
       'pageIndex',

@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { IProduct } from '../../shared/models/product';
 import { IProductBrand } from '../../shared/models/ProductBrand';
 import { IProductCategory } from '../../shared/models/ProductCategory';
-import { IShopParams, ShopParams } from '../../shared/models/shopParams';
+import { IShopParams } from '../../shared/models/shopParams';
 
 @Component({
   selector: 'app-filtered-product-list',
@@ -10,6 +18,8 @@ import { IShopParams, ShopParams } from '../../shared/models/shopParams';
   styleUrls: ['./filtered-product-list.component.scss'],
 })
 export class FilteredProductListComponent implements OnInit {
+  // @ViewChild('searchInput', { static: false }) searchTerm: ElementRef;
+  searchTerm: string = '';
   @Input() products: IProduct[];
   @Input() totalProducts: number;
   @Input() brands: IProductBrand[];
@@ -43,6 +53,7 @@ export class FilteredProductListComponent implements OnInit {
   @Output() filterByCategory = new EventEmitter<number>();
   @Output() sortByEmitter = new EventEmitter<string>();
   @Output() pageChangedEmitter = new EventEmitter<number>();
+  @Output() searchEmitter = new EventEmitter<string>();
 
   constructor() {}
 
@@ -95,5 +106,9 @@ export class FilteredProductListComponent implements OnInit {
 
   onPageChanged(event: any) {
     this.pageChangedEmitter.emit(event.page);
+  }
+
+  onSearch() {
+    this.searchEmitter.emit(this.searchTerm);
   }
 }

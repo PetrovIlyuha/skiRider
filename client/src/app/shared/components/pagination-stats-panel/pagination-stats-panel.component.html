@@ -1,0 +1,9 @@
+<div *ngIf="totalItems">
+    <span *ngIf="totalItems > 0">Showing <strong
+      class="mx-1">{{firstIndexInRangeForPageSize}} - {{lastIndexInRangeForPageSize}}</strong>out of
+      <strong class="mx-1">{{totalItems}}</strong>results
+    </span>
+  <span *ngIf="totalItems === 0">
+    No Products Match Your filters
+  </span>
+</div>

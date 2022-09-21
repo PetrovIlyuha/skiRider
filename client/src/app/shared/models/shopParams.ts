@@ -4,6 +4,7 @@ export class ShopParams implements IShopParams {
   sortByString = 'name';
   pageNumber = 1;
   pageSize = 6;
+  searchTerm = '';
 }
 
 export interface IShopParams {
@@ -12,4 +13,5 @@ export interface IShopParams {
   sortByString: string;
   pageNumber: number;
   pageSize: number;
+  searchTerm: string;
 }
