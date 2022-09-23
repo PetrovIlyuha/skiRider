@@ -1,9 +1,10 @@
 <div class="flex flex-col justify-between">
-  <div class="relative group cursor-pointer">
-    <div class="relative w-full h-72 rounded-lg overflow-hidden group-hover:border-2 border-gray-100 group-hover:shadow-lg">
+  <div class="relative group cursor-pointer" routerLink="/shop/{{product.id}}">
+    <div
+      class="relative w-full h-72 rounded-lg overflow-hidden group-hover:border-2 border-gray-100 group-hover:shadow-lg">
       <img [src]="product.pictureUrl" class="object-contain group-hover:scale-110 transition-all duration-200">
     </div>
-    <div class="relative mt-4">
+    <div class="relative mt-4" >
       <h3 class="text-sm font-medium text-gray-900">{{product.name.slice(0,20) + "..."}}</h3>
       <p class="mt-1 text-sm text-gray-500">{{product.description.slice(0,14).concat("...")}}</p>
     </div>

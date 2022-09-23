@@ -5,18 +5,21 @@ import { FilteredProductListComponent } from './filtered-product-list/filtered-p
 import { ProductCardSmallComponent } from './product-card-small/product-card-small.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     ShopComponent,
     FilteredProductListComponent,
     ProductCardSmallComponent,
+    ProductDetailsComponent,
   ],
   exports: [
     ShopComponent,
     FilteredProductListComponent,
     ProductCardSmallComponent,
   ],
-  imports: [CommonModule, SharedModule, FormsModule],
+  imports: [CommonModule, SharedModule, FormsModule, RouterModule],
 })
 export class ShopModule {}
