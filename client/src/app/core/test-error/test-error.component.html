@@ -1,0 +1,23 @@
+<div class="max-w-4xl mx-auto mt-32">
+  <div class="flex items-center justify-between">
+    <button (click)="get404Error()"
+            class="px-2 py-1 rounded-md shadow-sm bg-blue-400 hover:bg-blue-600 text-white font-semibold">
+      Got 404 Error
+    </button>
+    <button (click)="get500Error()"
+            class="px-2 py-1 rounded-md shadow-sm bg-blue-400 hover:bg-blue-600 text-white font-semibold">
+      Got 500 Error
+    </button>
+    <button (click)="get400Error()"
+            class="px-2 py-1 rounded-md shadow-sm bg-blue-400 hover:bg-blue-600 text-white font-semibold">
+      Got 400 Error
+    </button>
+    <button (click)="get400ValidationError()"
+            class="px-2 py-1 rounded-md shadow-sm bg-blue-400 hover:bg-blue-600 text-white font-semibold">
+      Got 400 Validation Error
+    </button>
+  </div>
+  <div *ngIf="validationErrors" class="flex flex-col mt-3 space-y-5">
+    <p *ngFor="let error of validationErrors" class="px-3 py-1 rounded-md text-white bg-red-500 min-w-32">{{error}}</p>
+  </div>
+</div>

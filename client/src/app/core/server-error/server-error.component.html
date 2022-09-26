@@ -1,0 +1,16 @@
+<div class="mt-44 max-w-3xl mx-auto flex flex-col items-center">
+  <h1 class="text-2xl font-bold">Internal Server Error - refresh the page and you will lose this info</h1>
+  <h3>Error: {{error.message}}</h3>
+  <p>Note: If you are seeing this, than the server is to blame</p>
+  <p class="text-2xl text-white bg-red-800 rounded-md shadow-md px-10 py-2">What should you try to do?</p>
+  <ol>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Open Chrome DevTools</li>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Inspect Network Tab</li>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Check for failed request</li>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Examine this request URL - make sure you are not an idiot</li>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Try to Reproduce this error with postman or similar tooling.</li>
+    <li class="px-3 py-[3px] rounded-sm bg-gray-800 text-gray-300 my-2">Smash your laptop into the wall and go grab some fresh air...</li>
+  </ol>
+  <p>Stack Trace for this error: </p>
+  <code *ngIf="error" class="bg-blue-900 text-green-200 rounded-lg shadow-md p-4 m-3">{{error.details}}</code>
+</div>

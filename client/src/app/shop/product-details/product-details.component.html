@@ -1,27 +1,7 @@
-<div class="bg-white"
-     *ngIf="product">
-  <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+<div class="bg-white -mt-20" *ngIf="product">
+  <div class="mx-auto max-w-2xl py-3 px-4 sm:py-24 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
     <!-- Product details -->
     <div class="lg:max-w-lg lg:self-end">
-      <nav aria-label="Breadcrumb">
-        <ol role="list" class="flex items-center space-x-2">
-          <li>
-            <div class="flex items-center text-sm">
-              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">{{product.productType}}</a>
-
-              <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" class="ml-2 h-5 w-5 flex-shrink-0 text-gray-300">
-                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-              </svg>
-            </div>
-          </li>
-
-          <li>
-            <div class="flex items-center text-sm">
-              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">{{product.productBrand}}</a>
-            </div>
-          </li>
-        </ol>
-      </nav>
       <div class="mt-4">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{product.name}}</h1>
       </div>

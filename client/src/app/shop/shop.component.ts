@@ -4,6 +4,8 @@ import { ShopService } from './shop.service';
 import { IProductBrand } from '../shared/models/ProductBrand';
 import { IProductCategory } from '../shared/models/ProductCategory';
 import { ShopParams } from '../shared/models/shopParams';
+import { BreadcrumbService } from '../core/breadcrumb.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-shop',
@@ -16,9 +18,14 @@ export class ShopComponent implements OnInit {
   categories: IProductCategory[];
   totalProducts: number;
   shopParams = new ShopParams();
-  constructor(private shopService: ShopService) {}
+  constructor(
+    private shopService: ShopService,
+    private breadcrumbService: BreadcrumbService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
+    this.breadcrumbService.updateBreadcrumbs(this.location.path());
     this.getProducts();
     this.getBrands();
     this.getProductCategories();
