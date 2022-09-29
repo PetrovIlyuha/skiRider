@@ -1,4 +1,11 @@
-<app-nav-bar></app-nav-bar>
-<app-section-header></app-section-header>
-<router-outlet></router-outlet>
+<ngx-spinner>
+  <h2>Loading Data...</h2>
+</ngx-spinner>
+
+<div [ngClass]="{'bg-white': theme === 'Light', 'bg-gray-800': theme === 'Dark'}">
+  <app-nav-bar></app-nav-bar>
+  <app-section-header></app-section-header>
+  <router-outlet></router-outlet>
+</div>
+
 <!--<app-shop></app-shop>-->

@@ -1,5 +1,5 @@
 
-<div class="bg-white">
+<div [ngClass]="{'bg-white': theme === 'Light', 'bg-gray-700': theme === 'Dark'}">
   <div>
     <!-- Mobile filter dialog -->
     <div [ngClass]="{'fixed inset-0 flex z-40': true, 'hidden': !mobileMenuOpened}" role="dialog" aria-modal="true">
@@ -101,8 +101,17 @@
 
     <main class="max-w-2xl mx-auto py-16 -mt-20 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <div class="border-b hidden md:block border-gray-200 pb-10">
-        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">New Collection</h1>
-        <p class="mt-4 text-base text-gray-500">Checkout out the latest release of Boards, Gloves & Boots!</p>
+        <h1
+          [ngClass]="{'text-4xl font-extrabold tracking-tight': true, 'text-gray-900': theme === 'Light',
+          'text-green-300': theme=== 'Dark'}">New
+          Collection</h1>
+        <p
+          [ngClass]="{'mt-4 text-base': true, 'text-gray-500': theme === 'Light', 'text-blue-300': theme === 'Dark'}">Checkout out the
+          latest
+          release
+          of Boards,
+          Gloves &
+          Boots!</p>
       </div>
 
       <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
@@ -111,19 +120,24 @@
 
           <!-- Mobile filter dialog toggle, controls the 'mobileFilterDialogOpen' state. -->
           <button type="button" (click)="toggleMobileMenuSideBar()" class="inline-flex items-center lg:hidden">
-            <span class="text-sm font-medium text-gray-700">Filters</span>
+            <span class="text-sm font-medium text-gray-200">Filters</span>
             <!-- Heroicon name: solid/plus-sm -->
             <svg class="flex-shrink-0 ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
           </button>
 
-          <div class="hidden lg:block">
+          <div [ngClass]="{'hidden lg:block': true, 'text-gray-700': theme === 'Light', 'text-green-300': theme ===
+          'Dark'}">
           <!-- Sorting dropdown -->
             <div class="my-4">
-            <label id="listbox-label" class="block text-sm font-medium text-gray-700">Sort By</label>
+            <label id="listbox-label" class="block text-sm font-medium">Sort By</label>
             <div class="relative mt-1">
-                <button type="button" (click)="toggleSortMenu()" class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                <button type="button" (click)="toggleSortMenu()"
+                        [ngClass]="{'relative w-full cursor-default rounded-md border border-gray-300 py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm': true,
+                        'bg-white': theme === 'Light',
+                        'bg-gray-600': theme === 'Dark'}" aria-haspopup="listbox" aria-expanded="true"
+                        aria-labelledby="listbox-label">
                   <span class="block truncate">{{getSelectedSortingMethodDisplayValue()}}</span>
                     <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <!-- Heroicon name: mini/chevron-up-down -->
@@ -134,7 +148,8 @@
                 </button>
               <ul [ngClass]="{'transition-all ease-in duration-100 absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm':true, 'hidden': !sortMenuOpened}" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
                 <div *ngFor="let sortOption of sortingOptions">
-                <li (click)="selectSortMethod(sortOption.value)" class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-blue-400 hover:text-white transition-all duration-100 ease-in" id="listbox-option-0" role="option">
+                <li (click)="selectSortMethod(sortOption.value)"
+                    [ngClass]="{'relative cursor-pointer select-none py-2 pl-3 pr-9 transition-all duration-100 ease-in': true, 'bg-gray-300': theme === 'Light', 'bg-gray-600': theme === 'Dark'}" id="listbox-option-0" role="option">
                   <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                   <span class="font-normal block truncate">{{sortOption.name}}</span>
                   <!-- Checkmark, only display for selected option. Highlighted: "text-white", Not Highlighted: "text-indigo-600" -->

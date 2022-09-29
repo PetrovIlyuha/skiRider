@@ -1,5 +1,5 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<nav class="bg-white z-10 shadow-sm fixed top-0 w-full">
+<nav [ngClass]="{'z-10 shadow-sm fixed top-0 w-full': true, 'bg-gray-800': theme == 'Dark', 'bg-white': theme=== 'Light'}">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex">
@@ -31,10 +31,15 @@
           <a routerLink="/"
              routerLinkActive="border-b-2 border-indigo-500"
              [routerLinkActiveOptions]="{exact:true}"
-             class="text-decoration-none text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">Home</a>
+             [ngClass]="{'text-decoration-none text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium':
+              true, 'text-green-300 hover:text-green-400': theme=== 'Dark', 'text-gray-900 hover:text-gray-700': theme
+              === 'Light'}">
+            Home</a>
           <a routerLink="/shop"
              routerLinkActive="border-b-2 border-indigo-500"
-             class="text-decoration-none text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+             [ngClass]="{'text-decoration-none text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium':
+              true, 'text-green-300 hover:text-green-400': theme=== 'Dark', 'text-gray-900 hover:text-gray-700': theme
+              === 'Light'}"
              [routerLinkActiveOptions]="{exact:true}"
           >Products</a>
 <!--          <a routerLink="/test-error"-->
@@ -44,9 +49,22 @@
         </div>
       </div>
       <div class="flex items-center">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+        <button type="button" (click)="toggleTheme()"
+                [ngClass]="{'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2': true,
+                'bg-gray-200 border-transparent': theme === 'Light',
+                'bg-gray-800 border-green-200': theme === 'Dark'}" role="switch" aria-checked="false">
+          <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+          <span aria-hidden="true"
+                [ngClass]="{'pointer-events-none inline-block flex items-center justify-center h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out': true,
+                'translate-x-0 bg-gray-800': theme === 'Light',
+                'translate-x-5 bg-yellow-300': theme === 'Dark'}">{{theme === 'Light' ? '🌙' : '🌤'}}</span>
+        </button>
+
         <div class="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
           <button type="button" class="relative bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <span class="sr-only">View notifications</span>
+            <span class="sr-only">View Products in the Shopping Cart</span>
             <!-- cart icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />

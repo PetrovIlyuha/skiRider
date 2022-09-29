@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -11,14 +12,23 @@ import { IProduct } from '../../shared/models/product';
 import { IProductBrand } from '../../shared/models/ProductBrand';
 import { IProductCategory } from '../../shared/models/ProductCategory';
 import { IShopParams } from '../../shared/models/shopParams';
+import { AppTheme, ThemeService } from '../../core/theme.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filtered-product-list',
   templateUrl: './filtered-product-list.component.html',
   styleUrls: ['./filtered-product-list.component.scss'],
 })
-export class FilteredProductListComponent implements OnInit {
-  // @ViewChild('searchInput', { static: false }) searchTerm: ElementRef;
+export class FilteredProductListComponent implements OnInit, OnDestroy {
+  theme: AppTheme;
+  themeSub$: Subscription;
+  showMobileMenu: boolean = false;
+
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+  }
+
   searchTerm: string = '';
   @Input() products: IProduct[];
   @Input() totalProducts: number;
@@ -38,6 +48,7 @@ export class FilteredProductListComponent implements OnInit {
   firstIndexForPaginatedItemsForGivenRange(): number {
     return (this.shopParams.pageNumber - 1) * this.shopParams.pageSize + 1;
   }
+
   lastIndexForPaginatedItemsForGivenRange(): number {
     const expectedMaxInRange =
       this.shopParams.pageNumber * this.shopParams.pageSize;
@@ -55,9 +66,20 @@ export class FilteredProductListComponent implements OnInit {
   @Output() pageChangedEmitter = new EventEmitter<number>();
   @Output() searchEmitter = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private themeService: ThemeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.theme = this.themeService.theme;
+    this.themeSub$ = this.themeService.themeLiveUpdates$.subscribe(
+      (updatedTheme) => {
+        this.theme = updatedTheme;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.themeSub$.unsubscribe();
+  }
 
   toggleMobileMenuSection(sectionName: string): void {
     if (this.mobileMenuSectionsOpened.includes(sectionName)) {
