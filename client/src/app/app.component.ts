@@ -17,6 +17,14 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
+    this.handleThemeChangeAndStorageWithPreloadOnAppStart();
+  }
+
+  handleThemeChangeAndStorageWithPreloadOnAppStart() {
+    const storedAppTheme = JSON.parse(localStorage.getItem('app.theme'));
+    if (storedAppTheme) {
+      this.themeService.preloadTheme(storedAppTheme);
+    }
     this.theme = this.themeService.theme;
     this.themeSub$ = this.themeService.themeLiveUpdates$.subscribe(
       (updatedTheme) => {

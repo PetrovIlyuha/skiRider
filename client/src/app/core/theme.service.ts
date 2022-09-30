@@ -18,6 +18,11 @@ export class ThemeService implements OnInit {
     this.themeLiveUpdates$.next(this.theme);
   }
 
+  preloadTheme(theme: AppTheme) {
+    this.theme = theme;
+    this.themeLiveUpdates$.next(this.theme);
+  }
+
   toggleTheme(): void {
     if (this.theme === AppTheme.Light) {
       this.theme = AppTheme.Dark;
@@ -26,5 +31,6 @@ export class ThemeService implements OnInit {
       this.theme = AppTheme.Light;
       this.themeLiveUpdates$.next(this.theme);
     }
+    localStorage.setItem('app.theme', JSON.stringify(this.theme));
   }
 }

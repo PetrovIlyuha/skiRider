@@ -6,7 +6,17 @@
       <div aria-hidden="true" class="absolute inset-0 hidden sm:flex sm:flex-col">
         <div class="relative w-full flex-1 bg-gray-800">
           <div class="absolute inset-0 overflow-hidden">
-            <img src="../../assets/images/hero3.jpg" alt="" class="h-full w-full object-cover object-center">
+            <carousel class="h-full w-full" [showIndicators]="false" [interval]="4000" [isAnimated]="true">
+              <slide>
+                <img src="../../assets/images/hero1.jpg" alt="" class="h-full w-full object-contain object-center">
+              </slide>
+              <slide>
+                <img src="../../assets/images/hero2.jpg" alt="" class="h-full w-full object-cover object-center">
+              </slide>
+              <slide>
+                <img src="../../assets/images/hero3.jpg" alt="" class="h-full w-full object-cover object-center">
+              </slide>
+            </carousel>
           </div>
           <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
         </div>
@@ -18,7 +28,17 @@
         <div aria-hidden="true" class="absolute inset-0 flex flex-col sm:hidden">
           <div class="relative w-full flex-1 bg-gray-800">
             <div class="absolute inset-0 overflow-hidden">
-              <img src="../../assets/images/hero3.jpg" alt="" class="h-full w-full object-cover object-center">
+                <carousel>
+                  <slide>
+                    <img src="../../assets/images/hero1.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </slide>
+                  <slide>
+                    <img src="../../assets/images/hero2.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </slide>
+                  <slide>
+                    <img src="../../assets/images/hero3.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </slide>
+                </carousel>
             </div>
             <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
           </div>

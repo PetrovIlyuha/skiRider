@@ -68,6 +68,11 @@ export class FilteredProductListComponent implements OnInit, OnDestroy {
 
   constructor(private themeService: ThemeService) {}
 
+  adaptTextColorForTheme = (theme: AppTheme) => ({
+    'text-gray-800 hover:text-gray-900': theme === 'Light',
+    'text-green-200 hover:text-green-300': theme === 'Dark',
+  });
+
   ngOnInit(): void {
     this.theme = this.themeService.theme;
     this.themeSub$ = this.themeService.themeLiveUpdates$.subscribe(
