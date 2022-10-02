@@ -1,5 +1,6 @@
 <div [ngClass]="{'flex flex-col justify-between':true, 'text-gray-800': theme === 'Light',
-    'text-green-300': theme=== 'Dark'}">
+    'text-green-300': theme=== 'Dark'}"
+     *ngIf="basket$ | async">
   <div class="relative group cursor-pointer" routerLink="/shop/{{product.id}}">
     <div
       class="relative w-full h-72 rounded-lg overflow-hidden group-hover:border-2 border-gray-100 group-hover:shadow-lg">
@@ -14,7 +15,8 @@
       <p class="relative text-lg font-semibold text-white group-hover:text-gray-800 transition-all duration-800">{{product.price | currency:"CNY"}}</p>
     </div>
   </div>
-  <button class="mt-2 px-10 w-full py-2 rounded-md text-white bg-blue-500 hover:bg-blue-700 font-medium">
-    To Cart
+  <button (click)="addItemToBasket()"
+          [ngClass]="{'mt-2 px-10 w-full py-2 rounded-md text-white bg-blue-500 hover:bg-blue-700 font-medium text-sm':true, 'bg-indigo-700 hover:bg-indigo-800': itemFoundInCart(basket$ | async)}">
+    {{addToCartDisplayText(basket$ | async)}}
   </button>
 </div>

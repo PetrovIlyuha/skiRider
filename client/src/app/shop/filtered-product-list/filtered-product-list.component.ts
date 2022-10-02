@@ -21,20 +21,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./filtered-product-list.component.scss'],
 })
 export class FilteredProductListComponent implements OnInit, OnDestroy {
-  theme: AppTheme;
-  themeSub$: Subscription;
-  showMobileMenu: boolean = false;
-
-  toggleMobileMenu(): void {
-    this.showMobileMenu = !this.showMobileMenu;
-  }
-
-  searchTerm: string = '';
   @Input() products: IProduct[];
   @Input() totalProducts: number;
   @Input() brands: IProductBrand[];
   @Input() categories: IProductCategory[];
   @Input() shopParams: IShopParams;
+  theme: AppTheme;
+  themeSub$: Subscription;
+
+  searchTerm: string = '';
   selectedSortMethod: string = 'name';
   selectedFilterBrandId: number = 0;
   selectedCategoryId: number = 0;
@@ -67,11 +62,6 @@ export class FilteredProductListComponent implements OnInit, OnDestroy {
   @Output() searchEmitter = new EventEmitter<string>();
 
   constructor(private themeService: ThemeService) {}
-
-  adaptTextColorForTheme = (theme: AppTheme) => ({
-    'text-gray-800 hover:text-gray-900': theme === 'Light',
-    'text-green-200 hover:text-green-300': theme === 'Dark',
-  });
 
   ngOnInit(): void {
     this.theme = this.themeService.theme;

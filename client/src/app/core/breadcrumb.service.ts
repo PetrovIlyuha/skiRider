@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 })
 export class BreadcrumbService implements OnInit {
   breadcrumbsData: string[] = [];
-  pathToPageLinkMap = { products: 'shop' };
+  pathToPageLinkMap = { products: 'shop', basket: 'basket' };
   liveBreadCrumbs = new Subject<string[]>();
 
   updateBreadcrumbs(path: string) {
@@ -17,6 +17,9 @@ export class BreadcrumbService implements OnInit {
     const parts = path.split('/');
     if (parts[1] === 'shop') {
       this.breadcrumbsData.push('Products');
+    }
+    if (parts[1] === 'basket') {
+      this.breadcrumbsData.push('Basket');
     }
     if (!Number.isNaN(parseInt(parts[2]))) {
       this.shopService

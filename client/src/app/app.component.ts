@@ -4,6 +4,7 @@ import { IProduct } from './shared/models/product';
 import { IPagination } from './shared/models/pagination';
 import { AppTheme, ThemeService } from './core/theme.service';
 import { Subscription } from 'rxjs';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,16 @@ export class AppComponent implements OnInit, OnDestroy {
   theme: AppTheme;
   themeSub$: Subscription;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private basketService: BasketService
+  ) {}
 
   ngOnInit(): void {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) {
+      this.basketService.getBasket(basketId).subscribe(() => {});
+    }
     this.handleThemeChangeAndStorageWithPreloadOnAppStart();
   }
 
