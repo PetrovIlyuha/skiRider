@@ -41,4 +41,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
   toggleTheme() {
     this.themeService.toggleTheme();
   }
+
+  getTotalItemsInBasket(basket: IBasket | null) {
+    return basket.items.reduce((total, item) => item.quantity + total, 0);
+  }
 }

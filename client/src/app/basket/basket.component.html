@@ -1,7 +1,8 @@
-<div class="bg-white"
+<div [ngClass]="{'bg-white text-gray-800': theme === 'Light',
+    'bg-gray-700 text-green-300': theme === 'Dark'}"
      *ngIf="basket$ | async">
   <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:px-0">
-    <h1 class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Shopping Cart</h1>
+    <h1 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">Shopping Cart</h1>
     <form class="mt-12">
       <section aria-labelledby="cart-heading">
         <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
@@ -19,12 +20,13 @@
                 <div class="flex justify-between">
                   <h4 class="text-sm">
                     <a routerLink="/shop/{{item.id}}"
-                       class="font-medium text-gray-700 hover:text-gray-800">{{item.productName}}</a>
+                       [ngClass]="{'font-medium no-underline': true, 'text-gray-800': theme==='Light',
+                       'text-yellow-300': theme === 'Dark'}">{{item.productName}}</a>
                   </h4>
-                  <p class="ml-4 text-sm font-medium text-gray-900">{{item.price | currency : "CNY"}}</p>
+                  <p class="ml-4 text-sm font-medium">{{item.price | currency : "CNY"}}</p>
                 </div>
-                <p class="mt-1 text-sm text-gray-500">Brand: {{item.brand}}</p>
-                <p class="mt-1 text-sm text-gray-500">Category: {{item.type}}</p>
+                <p class="mt-1 text-sm">Brand: {{item.brand}}</p>
+                <p class="mt-1 text-sm">Category: {{item.type}}</p>
               </div>
 
               <div class="my-2 px-2 flex items-center justify-between w-full max-h-[30px]">
@@ -44,11 +46,19 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p class="text-xl text-gray-700 font-medium">Currently In Cart: {{item.quantity}}</p>
+                <div class="flex flex-col">
+                  <p class="text-md font-semibold"><span class="font-normal">Currently In
+                    Cart:</span>
+                    {{item.quantity}}</p>
+                  <p class="text-md font-semibold"><span class="font-normal">Subtotal For
+                    Item:</span>
+                    {{item.quantity * item.price | currency : 'CNY'}}</p>
+
+                </div>
               </div>
 
               <div class="mt-4 flex flex-1 items-end justify-between">
-                <p class="flex items-center space-x-2 text-sm text-gray-700">
+                <p class="flex items-center space-x-2 text-sm">
                   <!-- Heroicon name: mini/check -->
                   <svg class="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
@@ -56,7 +66,8 @@
                   <span>In stock</span>
                 </p>
                 <div class="ml-4">
-                  <button type="button" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <button (click)="removeFromBasket(item)" type="button"
+                          class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     <span>Remove</span>
                   </button>
                 </div>
@@ -75,12 +86,12 @@
         <div>
           <dl class="space-y-4">
             <div class="flex items-center justify-between">
-              <dt class="text-base font-medium text-gray-900">Subtotal</dt>
+              <dt class="text-base font-medium">Subtotal</dt>
               <dd
-                class="ml-4 text-base font-medium text-gray-900">{{getSubTotal(basket$|async) | currency : "CNY"}}</dd>
+                class="ml-4 text-base font-medium">{{getSubTotal(basket$|async) | currency : "CNY"}}</dd>
             </div>
           </dl>
-          <p class="mt-1 text-sm text-gray-500">Shipping and taxes will be calculated at checkout.</p>
+          <p class="mt-1 text-sm">Shipping and taxes will be calculated at checkout.</p>
         </div>
 
         <div class="mt-10">
@@ -90,7 +101,7 @@
         <div class="mt-6 text-center text-sm">
           <p>
             or
-            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+            <a routerLink="/shop" class="font-medium">
               Continue Shopping
               <span aria-hidden="true"> &rarr;</span>
             </a>

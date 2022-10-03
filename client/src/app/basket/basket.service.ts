@@ -50,6 +50,12 @@ export class BasketService {
     this.setBasket(basket);
   }
 
+  removeItemFromBasket(item: IBasketItem) {
+    const basket = this.getCurrentBasketValue();
+    basket.items = basket.items.filter((el) => el.id !== item.id);
+    this.setBasket(basket);
+  }
+
   private mapProductToBasketItem(
     item: IProduct,
     quantity: number
