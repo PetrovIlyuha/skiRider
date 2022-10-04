@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppTheme, ThemeService } from '../theme.service';
 import { Observable, Subscription } from 'rxjs';
-import { IBasket } from '../../basket/basket.interface';
+import { IBasket, IBasketTotals } from '../../basket/basket.interface';
 import { BasketService } from '../../basket/basket.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   themeSub$: Subscription;
   showMobileMenu: boolean = false;
   basket$: Observable<IBasket>;
+  basketTotals$: Observable<IBasketTotals>;
 
   constructor(
     private themeService: ThemeService,
@@ -27,6 +28,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         this.theme = updatedTheme;
       }
     );
+    this.basketTotals$ = this.basketService.basketTotals$;
     this.basket$ = this.basketService.basket$;
   }
 

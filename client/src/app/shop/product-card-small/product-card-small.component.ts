@@ -25,20 +25,24 @@ export class ProductCardSmallComponent implements OnInit {
   }
 
   addToCartDisplayText(basket: IBasket): string {
-    const inCartAmount = basket.items.find(
-      (item) => item.id === this.product.id
-    )?.quantity;
-    const displayedNumeral = inCartAmount > 1 ? 'items' : 'item';
-    if (inCartAmount !== undefined && inCartAmount > 0) {
-      return `${inCartAmount} ${displayedNumeral} in Cart.`;
+    if (!basket) {
+      return 'Add To Cart';
     } else {
-      return `Add To Cart`;
+      const inCartAmount = basket.items.find(
+        (item) => item.id === this.product.id
+      )?.quantity;
+      const displayedNumeral = inCartAmount > 1 ? 'items' : 'item';
+      if (inCartAmount !== undefined && inCartAmount > 0) {
+        return `${inCartAmount} ${displayedNumeral} in Cart.`;
+      } else {
+        return `Add To Cart`;
+      }
     }
   }
 
   itemFoundInCart(basket: IBasket): boolean {
-    return (
-      basket.items.find((item) => item.id === this.product.id) !== undefined
-    );
+    return basket
+      ? basket.items.find((item) => item.id === this.product.id) !== undefined
+      : false;
   }
 }

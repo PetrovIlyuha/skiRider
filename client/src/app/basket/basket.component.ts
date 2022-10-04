@@ -3,7 +3,7 @@ import { BreadcrumbService } from '../core/breadcrumb.service';
 import { Location } from '@angular/common';
 import { BasketService } from './basket.service';
 import { Observable, Subscription } from 'rxjs';
-import { IBasket, IBasketItem } from './basket.interface';
+import { IBasket, IBasketItem, IBasketTotals } from './basket.interface';
 import { ShopService } from '../shop/shop.service';
 import { Router } from '@angular/router';
 import { AppTheme, ThemeService } from '../core/theme.service';
@@ -15,6 +15,7 @@ import { AppTheme, ThemeService } from '../core/theme.service';
 })
 export class BasketComponent implements OnInit {
   basket$: Observable<IBasket>;
+  basketTotals$: Observable<IBasketTotals>;
   cartIsEmpty: boolean = false;
   theme: AppTheme;
   themeSub$: Subscription;
@@ -30,13 +31,10 @@ export class BasketComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbService.updateBreadcrumbs(this.location.path());
+    this.basketTotals$ = this.basketService.basketTotals$;
     this.basket$ = this.basketService.basket$;
     this.basket$.subscribe((value) => {
-      const currentlyInCartItems = value?.items.reduce(
-        (total, next) => total + next.quantity,
-        0
-      );
-      if (currentlyInCartItems === 0) {
+      if (!value) {
         this.router.navigateByUrl('/shop').then((r) => r);
       }
     });
@@ -46,15 +44,6 @@ export class BasketComponent implements OnInit {
         this.theme = updatedTheme;
       }
     );
-  }
-
-  getSubTotal(basket: IBasket | null): number {
-    if (basket) {
-      return basket.items.reduce((acc, next) => {
-        acc += next.price * next.quantity;
-        return acc;
-      }, 0);
-    }
   }
 
   changeItemQuantity(item: IBasketItem, quantity = 1) {

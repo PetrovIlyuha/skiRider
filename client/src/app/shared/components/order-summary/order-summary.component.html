@@ -1,0 +1,27 @@
+<section aria-labelledby="summary-heading"
+         [ngClass]="{'mt-10 rounded-md p-3':true,
+                    'bg-teal-700': theme === 'Dark',
+                    'bg-gray-300': theme === 'Light'}"
+         *ngIf="basketTotals$ | async">
+  <h2 class="text-2xl text-center">Order summary</h2>
+
+  <div class="text-white bg-teal-800 p-3 rounded-md ">
+    <dl class="space-y-4">
+      <div class="flex items-center justify-between border-b-2 border-gray-400">
+        <dt class="text-base font-medium">Subtotal</dt>
+        <dd
+          class="ml-4 text-base font-medium">{{(basketTotals$ | async)?.subTotal | currency : "CNY"}}</dd>
+      </div>
+      <div class="flex items-center justify-between border-b-2 border-gray-400">
+        <dt class="text-base font-medium">Shipping Cost</dt>
+        <dd
+          class="ml-4 text-base font-medium">{{(basketTotals$ | async)?.shipping | currency : "CNY"}}</dd>
+      </div>
+      <div class="flex items-center justify-between border-b-2 border-gray-400">
+        <dt class="text-base font-medium">Total</dt>
+        <dd
+          class="ml-4 text-base font-medium">{{(basketTotals$ | async)?.total | currency : "CNY"}}</dd>
+      </div>
+    </dl>
+  </div>
+</section>

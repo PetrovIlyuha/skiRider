@@ -1,6 +1,6 @@
 <div [ngClass]="{'flex flex-col justify-between':true, 'text-gray-800': theme === 'Light',
     'text-green-300': theme=== 'Dark'}"
-     *ngIf="basket$ | async">
+  >
   <div class="relative group cursor-pointer" routerLink="/shop/{{product.id}}">
     <div
       class="relative w-full h-72 rounded-lg overflow-hidden group-hover:border-2 border-gray-100 group-hover:shadow-lg">
