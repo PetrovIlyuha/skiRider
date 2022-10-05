@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../basket/basket.service';
 import { Observable } from 'rxjs';
-import { IBasket, IBasketTotals } from '../basket/basket.interface';
+import { IBasket } from '../basket/basket.interface';
+import { BreadcrumbService } from '../core/breadcrumb.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -10,11 +12,14 @@ import { IBasket, IBasketTotals } from '../basket/basket.interface';
 })
 export class CheckoutComponent implements OnInit {
   basket$: Observable<IBasket>;
-  basketTotals$: Observable<IBasketTotals>;
-  constructor(private basketService: BasketService) {}
+  constructor(
+    private basketService: BasketService,
+    private breadcrumbService: BreadcrumbService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.basket$ = this.basketService.basket$;
-    this.basketTotals$ = this.basketService.basketTotals$;
+    this.breadcrumbService.updateBreadcrumbs(this.location.path());
   }
 }
