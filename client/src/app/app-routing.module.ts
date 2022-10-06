@@ -12,8 +12,12 @@ const routes: Routes = [
   { path: 'test-error', component: TestErrorComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'server-error', component: ServerErrorComponent },
-  { path: 'shop', component: ShopComponent, pathMatch: 'full' },
-  { path: 'shop/:id', component: ProductDetailsComponent, pathMatch: 'full' },
+  { path: 'products', component: ShopComponent, pathMatch: 'full' },
+  {
+    path: 'products/:id',
+    component: ProductDetailsComponent,
+    pathMatch: 'full',
+  },
   {
     path: 'basket',
     loadChildren: () =>

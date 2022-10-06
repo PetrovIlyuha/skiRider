@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Errors;
 using API.Extensions;
+using AutoMapper;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -15,14 +16,16 @@ namespace API.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
+            this.mapper = mapper;
         }
-        
+
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -43,10 +46,10 @@ namespace API.Controllers
         }
 
         [HttpGet("address")]
-        public async Task<ActionResult<Address>> GetUserAddress()
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
             var user = await userManager.FindUserByClaimsPrincipalWithAddressAsync(User);
-            return user.Address;
+            return mapper.Map<Address, AddressDto>(user.Address);
         }
 
         [HttpPost("login")]
@@ -68,6 +71,20 @@ namespace API.Controllers
                 Token = tokenService.CreateToken(user),
                 DisplayName = user.DisplayName,
             };
+        }
+
+        [Authorize]
+        [HttpPost("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        {
+            var user = await userManager.FindUserByClaimsPrincipalWithAddressAsync(User);
+            user.Address = mapper.Map<AddressDto, Address>(address);
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(mapper.Map<Address, AddressDto>(user.Address));
+            }
+            return BadRequest("Problem updating this user!");
         }
 
         [HttpPost("register")]

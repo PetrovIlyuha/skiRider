@@ -19,7 +19,7 @@
               <div>
                 <div class="flex justify-between">
                   <h4 class="text-sm">
-                    <a routerLink="/shop/{{item.id}}"
+                    <a routerLink="/products/{{item.id}}"
                        [ngClass]="{'font-medium no-underline': true, 'text-gray-800': theme==='Light',
                        'text-yellow-300': theme === 'Dark'}">{{item.productName}}</a>
                   </h4>
@@ -94,7 +94,7 @@
         <div class="mt-6 text-center text-sm">
           <p>
             or
-            <a routerLink="/shop" class="font-medium">
+            <a routerLink="/products" class="font-medium">
               Continue Shopping
               <span aria-hidden="true"> &rarr;</span>
             </a>

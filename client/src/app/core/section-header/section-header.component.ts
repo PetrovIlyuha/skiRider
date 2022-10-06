@@ -17,10 +17,6 @@ export class SectionHeaderComponent implements OnInit, OnDestroy {
     private themeService: ThemeService
   ) {}
 
-  getLinkForPath(path: string): string {
-    return this.breadcrumbService.getLinkForPath(path);
-  }
-
   toggleTheme() {
     this.themeService.toggleTheme();
   }
