@@ -5,6 +5,7 @@ import { PaginationStatsPanelComponent } from './components/pagination-stats-pan
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,12 +13,18 @@ import { RouterModule } from '@angular/router';
     PaginationComponent,
     OrderSummaryComponent,
   ],
-  imports: [CommonModule, PaginationModule.forRoot(), RouterModule],
+  imports: [
+    CommonModule,
+    PaginationModule.forRoot(),
+    RouterModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     PaginationModule,
     PaginationStatsPanelComponent,
     PaginationComponent,
     OrderSummaryComponent,
+    ReactiveFormsModule,
   ],
 })
 export class SharedModule {}

@@ -1,5 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<nav [ngClass]="{'z-10 shadow-sm fixed top-0 w-full': true, 'bg-gray-800': theme == 'Dark', 'bg-white': theme=== 'Light'}">
+<nav [ngClass]="{'z-10 shadow-sm fixed top-0 w-full': true, 'bg-gray-800 text-green-300': theme == 'Dark', 'bg-white':
+theme=== 'Light'}">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex">
@@ -24,10 +25,11 @@
           </button>
         </div>
         <div routerLink="/" class="flex-shrink-0 flex items-center cursor-pointer">
-          <img src="../../../assets/images/logo.png" class="h-12" alt="">
+          <img *ngIf="theme === 'Light'" src="../../../assets/images/logo_light_horizontal.jpg" class="h-12" alt="">
+          <img *ngIf="theme === 'Dark'" src="../../../assets/images/logo_dark_horizontal.jpg" class="h-12" alt="">
         </div>
         <div class="hidden md:ml-6 md:flex md:space-x-8">
-          <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+          <!-- Current: "border-indigo-500 ", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
           <a routerLink="/"
              routerLinkActive="border-b-2 border-indigo-500"
              [routerLinkActiveOptions]="{exact:true}"
@@ -81,9 +83,19 @@
             </div>
           </button>
         </div>
-        <div class="flex min-w-[160px] items-center justify-between ml-8">
-          <button class="bg-blue-600 text-sm text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Login</button>
-          <button class="bg-blue-600 text-sm text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Sign Up</button>
+        <div *ngIf="!(currentUser$ | async)" class="flex min-w-[160px] items-center justify-between ml-8">
+          <a routerLink="/account/login">
+            <button class="bg-blue-600 text-sm text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Login</button>
+          </a>
+          <a routerLink="/account/register">
+            <button class="bg-blue-600 text-sm text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Sign Up</button>
+          </a>
+        </div>
+        <div *ngIf="currentUser$ | async" class="flex min-w-[160px] items-center justify-between ml-8">
+          <h2 class="text-sm font-bold mt-2">Welcome,&nbsp;</h2>
+          <h2 class="text-sm font-bold mt-2">{{(currentUser$ | async)?.displayName}}</h2>
+            <button (click)="logOut()"
+              class="bg-blue-600 text-sm ml-3 text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Logout</button>
         </div>
       </div>
     </div>

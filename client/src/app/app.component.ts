@@ -5,6 +5,7 @@ import { IPagination } from './shared/models/pagination';
 import { AppTheme, ThemeService } from './core/theme.service';
 import { Subscription } from 'rxjs';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private themeService: ThemeService,
-    private basketService: BasketService
+    private basketService: BasketService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
-    const basketId = localStorage.getItem('basket_id');
-    if (basketId) {
-      this.basketService.getBasket(basketId).subscribe(() => {});
-    }
+    this.loadBasket();
+    this.loadUser();
     this.handleThemeChangeAndStorageWithPreloadOnAppStart();
   }
 
@@ -41,6 +41,22 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  loadBasket() {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) {
+      this.basketService.getBasket(basketId).subscribe(() => {
+        console.log("Loaded Current User's Basket");
+      });
+    }
+  }
+  loadUser() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.accountService.loadCurrentUser(token).subscribe(() => {
+        console.log('Loaded Current User');
+      });
+    }
+  }
   toggleTheme() {
     this.themeService.toggleTheme();
   }
