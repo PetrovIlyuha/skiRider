@@ -91,11 +91,15 @@ theme=== 'Light'}">
             <button class="bg-blue-600 text-sm text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Sign Up</button>
           </a>
         </div>
-        <div *ngIf="currentUser$ | async" class="flex min-w-[160px] items-center justify-between ml-8">
+        <div *ngIf="currentUser$ | async" class="flex min-w-[160px] h-20 items-center justify-between ml-8">
           <h2 class="text-sm font-bold mt-2">Welcome,&nbsp;</h2>
-          <h2 class="text-sm font-bold mt-2">{{(currentUser$ | async)?.displayName}}</h2>
-            <button (click)="logOut()"
-              class="bg-blue-600 text-sm ml-3 text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Logout</button>
+          <h2 class="text-sm font-bold mt-2 mr-2">{{(currentUser$ | async)?.displayName}}</h2>
+          <div>
+          <app-user-dropdown-menu [dropDownOpened]="userMenuDropdownOpened"
+                                  (toggleDropDownEmitter)="toggleDropDownUserMenu($event)"></app-user-dropdown-menu>
+          </div>
+<!--            <button (click)="logOut()"-->
+<!--              class="bg-blue-600 text-sm ml-3 text-white/80 hover:bg-blue-700 hover:text-white rounded-md shadow-sm px-3 py-2">Logout</button>-->
         </div>
       </div>
     </div>

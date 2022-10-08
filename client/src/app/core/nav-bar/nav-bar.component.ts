@@ -18,7 +18,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   showMobileMenu: boolean = false;
   basket$: Observable<IBasket>;
   basketTotals$: Observable<IBasketTotals>;
-
+  userMenuDropdownOpened: boolean = false;
   constructor(
     private themeService: ThemeService,
     private basketService: BasketService,
@@ -34,6 +34,10 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.themeSub$.unsubscribe();
+  }
+
+  toggleDropDownUserMenu(value: boolean) {
+    this.userMenuDropdownOpened = value;
   }
 
   enableThemeChanges() {

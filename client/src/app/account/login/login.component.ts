@@ -21,11 +21,17 @@ export class LoginComponent implements OnInit {
   themeSub$: Subscription;
   fieldChanges$: Subscription;
   loginForm: FormGroup;
-  friendlyMovedLabels = [
+
+  friendlyLabels = [
     { label: 'email', elevated: false, dirty: false },
-    { label: 'password', elevated: false, dirty: false },
+    {
+      label: 'password',
+      elevated: false,
+      dirty: false,
+    },
   ];
   passwordFieldType: string = 'password';
+  fieldErrors = { email: [], password: [] };
 
   constructor(
     private themeService: ThemeService,
@@ -43,14 +49,61 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,40}$'),
+      ]),
     });
+    Object.keys(this.loginForm.controls).forEach((c) =>
+      this.startTrackingFieldErrors(c)
+    );
   }
 
   isFieldDirty(fieldName: string): boolean {
-    return this.friendlyMovedLabels.filter((f) => f.label === fieldName)[0]
-      ?.dirty;
+    return this.friendlyLabels.filter((f) => f.label === fieldName)[0]?.dirty;
+  }
+
+  startTrackingFieldErrors(fieldName: string) {
+    const control = this.loginForm.get(fieldName);
+    control.valueChanges.subscribe((value) => {
+      if (control.dirty && control.touched) {
+        const errors = control.errors;
+        if (errors) {
+          this.fieldErrors[fieldName] = [
+            ...Object.keys(errors).map(
+              (e) =>
+                this.errorMessages.filter(
+                  (m) => m.fieldName === fieldName && m.errorType === e
+                )[0].message
+            ),
+          ];
+        } else {
+          this.fieldErrors[fieldName] = [];
+        }
+      }
+    });
+  }
+
+  errorMessages = [
+    { fieldName: 'email', errorType: 'required', message: 'Email is required' },
+    { fieldName: 'email', errorType: 'email', message: 'Not a valid email' },
+    {
+      fieldName: 'password',
+      errorType: 'required',
+      message: 'Password is required',
+    },
+    {
+      fieldName: 'password',
+      errorType: 'pattern',
+      message: 'Password is too weak.',
+    },
+  ];
+
+  showValidationErrorsFor(fieldName: string) {
+    return this.fieldErrors[fieldName].length > 0
+      ? [...this.fieldErrors[fieldName]]
+      : [];
   }
 
   onSubmit() {
@@ -63,11 +116,11 @@ export class LoginComponent implements OnInit {
     this.fieldChanges$ = this.loginForm.valueChanges.subscribe((values) => {
       Object.entries(values).forEach(([fieldName, value]) => {
         if (value === '') {
-          this.friendlyMovedLabels = this.friendlyMovedLabels.map((f) =>
+          this.friendlyLabels = this.friendlyLabels.map((f) =>
             f.label === fieldName ? { ...f, dirty: false } : f
           );
         } else {
-          this.friendlyMovedLabels = this.friendlyMovedLabels.map((f) =>
+          this.friendlyLabels = this.friendlyLabels.map((f) =>
             f.label === fieldName ? { ...f, dirty: true } : f
           );
         }
@@ -90,14 +143,12 @@ export class LoginComponent implements OnInit {
   }
 
   shouldLabelElevate(labelName: string) {
-    const field = this.friendlyMovedLabels.filter(
-      (l) => l.label === labelName
-    )[0];
+    const field = this.friendlyLabels.filter((l) => l.label === labelName)[0];
     return field.elevated || this.isFieldDirty(labelName);
   }
 
   toggleMoveInputLabel(labelName: string) {
-    this.friendlyMovedLabels = this.friendlyMovedLabels.map((l) =>
+    this.friendlyLabels = this.friendlyLabels.map((l) =>
       l.label === labelName ? { ...l, elevated: !l.elevated } : l
     );
   }
