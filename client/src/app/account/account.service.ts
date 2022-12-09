@@ -49,8 +49,9 @@ export class AccountService {
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
-          this.router.navigateByUrl('/').then((r) => r);
+          this.currentUserSource.next(user);
         }
+        this.router.navigateByUrl('/').then((r) => r);
       })
     );
   }

@@ -3,12 +3,7 @@ import { AppTheme, ThemeService } from '../../core/theme.service';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from '../../core/breadcrumb.service';
 import { Location } from '@angular/common';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -100,7 +95,7 @@ export class LoginComponent implements OnInit {
     },
   ];
 
-  showValidationErrorsFor(fieldName: string) {
+  thereAreValidationErrorsFor(fieldName: string) {
     return this.fieldErrors[fieldName].length > 0
       ? [...this.fieldErrors[fieldName]]
       : [];
