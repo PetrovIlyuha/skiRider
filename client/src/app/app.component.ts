@@ -49,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   loadUser() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }

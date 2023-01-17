@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppTheme, ThemeService } from '../../core/theme.service';
 import { Subscription } from 'rxjs';
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   theme: AppTheme;
   themeSub$: Subscription;
   fieldChanges$: Subscription;
+  returnUrl: string;
   loginForm: FormGroup;
 
   friendlyLabels = [
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
     private themeService: ThemeService,
     private breadcrumbsService: BreadcrumbService,
     private location: Location,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +44,8 @@ export class LoginComponent implements OnInit {
     this.enableThemeChanges();
     this.createLoginForm();
     this.trackFormFieldsValues();
+    this.returnUrl =
+      this.activatedRoute.snapshot.queryParams.returnUrl || '/products';
   }
 
   createLoginForm() {
@@ -103,7 +109,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe(() => {
-      console.log('user logged in');
+      this.router.navigateByUrl(this.returnUrl);
     });
   }
 

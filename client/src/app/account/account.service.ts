@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of, ReplaySubject } from 'rxjs';
 import { IUser } from '../shared/models/user';
 import { Router } from '@angular/router';
 
@@ -13,10 +13,6 @@ export class AccountService {
   private currentUserSource = new BehaviorSubject<IUser>(null);
   currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient, private router: Router) {}
-
-  getCurrentUserValue() {
-    return this.currentUserSource.value;
-  }
 
   loadCurrentUser(token: string) {
     let headers = new HttpHeaders();
