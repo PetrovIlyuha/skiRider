@@ -1,7 +1,12 @@
 import { AppTheme, ThemeService } from './../../core/theme.service';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription, timer, switchMap, of, map } from 'rxjs';
+import {
+  AsyncValidatorFn,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { BreadcrumbService } from 'src/app/core/breadcrumb.service';
 import { AccountService } from '../account.service';
 import { Location } from '@angular/common';
@@ -51,14 +56,17 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl(
+        '',
+        [Validators.required, Validators.email],
+        [this.validateEmailNotTaken()]
+      ),
       password: new FormControl('', [
         Validators.required,
         Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,40}$'),
       ]),
     });
     Object.keys(this.registerForm.controls).forEach((c) => {
-      console.log(c);
       this.startTrackingFieldErrors(c);
     });
   }
@@ -72,7 +80,6 @@ export class RegisterComponent implements OnInit {
     control.valueChanges.subscribe((value) => {
       if (control.dirty && control.touched) {
         const errors = control.errors;
-
         if (errors) {
           this.fieldErrors[fieldName] = [
             ...Object.keys(errors).map(
@@ -103,6 +110,11 @@ export class RegisterComponent implements OnInit {
     { fieldName: 'email', errorType: 'required', message: 'Email is required' },
     { fieldName: 'email', errorType: 'email', message: 'Not a valid email' },
     {
+      fieldName: 'email',
+      errorType: 'emailExists',
+      message: 'This email is taken',
+    },
+    {
       fieldName: 'password',
       errorType: 'required',
       message: 'Password is required',
@@ -118,6 +130,29 @@ export class RegisterComponent implements OnInit {
     return this.fieldErrors[fieldName].length > 0
       ? [...this.fieldErrors[fieldName]]
       : [];
+  }
+
+  validateEmailNotTaken(): AsyncValidatorFn {
+    return (control) => {
+      return timer(500).pipe(
+        switchMap(() => {
+          if (!control.value) {
+            return of(null);
+          }
+          return this.accountService.checkEmailExists(control.value).pipe(
+            map((res) => {
+              if (res) {
+                this.fieldErrors.email = [
+                  ...this.fieldErrors.email,
+                  'This email was taken',
+                ];
+              }
+              return res ? { emailExists: true } : null;
+            })
+          );
+        })
+      );
+    };
   }
 
   onSubmit() {
